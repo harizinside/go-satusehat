@@ -9,6 +9,8 @@ import (
 	"net/url"
 	"strings"
 	"testing"
+
+	"github.com/harizinside/go-satusehat/farmasi"
 )
 
 func newTestServer(t *testing.T, handler http.HandlerFunc) (*Client, *httptest.Server) {
@@ -243,7 +245,7 @@ func TestGeneratedService_SearchDocumentReference(t *testing.T) {
 	defer srv.Close()
 
 	c.SetToken("test-token")
-	if _, err := c.Farmasi.Peresepan.SearchDocumentReference(context.Background(), FarmasiPeresepanSearchDocumentReferenceParams{
+	if _, err := c.Farmasi.Peresepan.SearchDocumentReference(context.Background(), farmasi.PeresepanSearchDocumentReferenceParams{
 		Identifier: "X",
 		Include:    "MedicationRequest",
 	}); err != nil {

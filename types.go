@@ -5,59 +5,36 @@
 // via `Config.Token` / `SetToken` on every request, exactly like the Node
 // version.
 //
-// All 384+ generated functions hang off namespaced sub-clients reachable from
+// All 384+ generated functions live in per-group packages (fhir, rawatjalan,
+// gigi, farmasi, klaimswasta, klaimbpjs) and hang off the client as
 // `c.FHIR.*`, `c.RawatJalan.*`, `c.Gigi.*`, `c.Farmasi.*`,
 // `c.KlaimSwasta.*`, and `c.KlaimBpjs.*`; see README for the full list.
 package satusehat
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"strings"
+
+	"github.com/harizinside/go-satusehat/internal/core"
 )
 
 // Resource is a loosely-typed FHIR R4 resource: `{resourceType, ...}` plus
-// arbitrary fields. Use this when you don't have (or don't need) a typed
-// struct; the generated code uses this for endpoints where the returned type
-// isn't worth a dedicated struct.
-type Resource = map[string]any
+// arbitrary fields.
+type Resource = core.Resource
 
-// Bundle is a FHIR searchset/transaction/collection Bundle. Entries are kept
-// as `json.RawMessage` so the caller can decode each `entry.resource` with
-// the right concrete type (`Resource`, `Coding`, a generated *Body, …) without
-// re-marshalling.
-type Bundle struct {
-	ResourceType string        `json:"resourceType"`
-	Type         string        `json:"type,omitempty"`
-	Total        int           `json:"total,omitempty"`
-	Link         []Resource    `json:"link,omitempty"`
-	Entry        []BundleEntry `json:"entry,omitempty"`
-}
+// Bundle is a FHIR searchset/transaction/collection Bundle; decode each
+// `entry.resource` (raw JSON) into whatever type you need.
+type Bundle = core.Bundle
 
-// BundleEntry is one entry inside a Bundle. `Resource` is raw JSON so the
-// caller decides how to decode it.
-type BundleEntry struct {
-	FullURL  string          `json:"fullUrl,omitempty"`
-	Resource json.RawMessage `json:"resource,omitempty"`
-	Search   *BundleSearch   `json:"search,omitempty"`
-}
+// BundleEntry is one entry inside a Bundle.
+type BundleEntry = core.BundleEntry
 
 // BundleSearch is the FHIR Bundle.entry.search object (mode/score).
-type BundleSearch struct {
-	Mode  string  `json:"mode,omitempty"`
-	Score float64 `json:"score,omitempty"`
-}
+type BundleSearch = core.BundleSearch
 
-// PatchOp is one FHIR JSON Patch operation (RFC 6902). `Value` is `any`
-// because patch values can be strings, numbers, objects, arrays, booleans or
-// null; `From` is set for `move`/`copy`.
-type PatchOp struct {
-	Op    string `json:"op"`
-	Path  string `json:"path"`
-	Value any    `json:"value,omitempty"`
-	From  string `json:"from,omitempty"`
-}
+// PatchOp is one FHIR JSON Patch operation (RFC 6902).
+type PatchOp = core.PatchOp
 
 // APIError is returned for any non-2xx SATU SEHAT response and for transport
 // failures (StatusCode 0); match it with errors.As. The first 512 bytes of the

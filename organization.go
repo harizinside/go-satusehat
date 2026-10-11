@@ -5,6 +5,7 @@ import (
 	"net/url"
 
 	"github.com/harizinside/go-satusehat/coding"
+	"github.com/harizinside/go-satusehat/internal/core"
 )
 
 // OrganizationInput is a FHIR R4 Organization as accepted by SATUSEHAT
@@ -28,7 +29,7 @@ type OrganizationInput struct {
 // unmodelled fields without losing them.
 func (o OrganizationInput) MarshalJSON() ([]byte, error) {
 	type plain OrganizationInput
-	return marshalWithExtra(plain(o), o.Extra)
+	return core.MarshalWithExtra(plain(o), o.Extra)
 }
 
 // LocationInput is a FHIR R4 Location as accepted by SATUSEHAT (POST
@@ -51,7 +52,7 @@ type LocationInput struct {
 // MarshalJSON merges Extra into the top-level object.
 func (l LocationInput) MarshalJSON() ([]byte, error) {
 	type plain LocationInput
-	return marshalWithExtra(plain(l), l.Extra)
+	return core.MarshalWithExtra(plain(l), l.Extra)
 }
 
 // RefIdentifier pairs a `reference` ("Organization/<id>") with an
@@ -87,22 +88,4 @@ func GetOrganization(ctx context.Context, c *Client, id string) (any, error) {
 // GetLocation reads a single Location by id.
 func GetLocation(ctx context.Context, c *Client, id string) (any, error) {
 	return c.Request(ctx, "GET", "/Location/"+url.PathEscape(id), nil)
-}
-
-// marshalWithExtra encodes payload and merges extra into the top-level object
-// (extra wins on conflict), mirroring TS `[key: string]: unknown` inputs.
-// payload must be a method-less alias of the caller's type, otherwise its
-// MarshalJSON would recurse back into here.
-func marshalWithExtra(payload any, extra map[string]any) ([]byte, error) {
-	if len(extra) == 0 {
-		return jsonMarshal(payload)
-	}
-	m, err := toMap(payload)
-	if err != nil {
-		return nil, err
-	}
-	for k, v := range extra {
-		m[k] = v
-	}
-	return jsonMarshal(m)
 }

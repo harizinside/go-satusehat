@@ -2,6 +2,8 @@ package satusehat
 
 import (
 	"context"
+
+	"github.com/harizinside/go-satusehat/internal/core"
 )
 
 // PriceJknParams is the input for `GetPriceJkn`.
@@ -115,7 +117,7 @@ type AlkesPageBody struct {
 // MarshalJSON merges Extra into the top-level object.
 func (a AlkesPageBody) MarshalJSON() ([]byte, error) {
 	type plain AlkesPageBody
-	return marshalWithExtra(plain(a), a.Extra)
+	return core.MarshalWithExtra(plain(a), a.Extra)
 }
 
 // AlkesOptions lets callers override the Authorization header and the base URL
@@ -159,5 +161,5 @@ func decodeKfaProductList(raw any, err error) (*KfaProductListResult, error) {
 	if raw == nil {
 		return &KfaProductListResult{}, nil
 	}
-	return decodeToType[KfaProductListResult](raw)
+	return core.DecodeTo[KfaProductListResult](raw)
 }

@@ -14,6 +14,8 @@ import (
 	"errors"
 	"fmt"
 	"strings"
+
+	"github.com/harizinside/go-satusehat/internal/core"
 )
 
 // KycKeyPair holds the PEM-encoded RSA keys used by SATU SEHAT's KYC flow.
@@ -340,7 +342,7 @@ func toString(v any) string {
 }
 
 func encodeJSON(v any) (string, error) {
-	data, err := jsonMarshal(v)
+	data, err := core.MarshalJSON(v)
 	if err != nil {
 		return "", err
 	}

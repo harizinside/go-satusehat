@@ -10,6 +10,8 @@ import (
 	"testing"
 
 	"github.com/harizinside/go-satusehat/coding"
+	"github.com/harizinside/go-satusehat/fhir"
+	"github.com/harizinside/go-satusehat/rawatjalan"
 )
 
 // Input types with Extra used to recurse forever in MarshalJSON (fatal stack overflow).
@@ -22,7 +24,7 @@ func TestMarshalWithExtra_NoRecursion(t *testing.T) {
 		{LocationInput{ResourceType: "Location", Name: "Poli"}, `{"resourceType":"Location","name":"Poli"}`},
 		{RmeLinkInput{PatientID: "P1", Extra: map[string]any{"x": 1}}, `"x":1`},
 		{AlkesPageBody{Page: Ptr(2)}, `"page":2`},
-		{SlotInput{Extra: map[string]any{"x": 1}}, `"x":1`},
+		{fhir.SlotInput{Extra: map[string]any{"x": 1}}, `"x":1`},
 	}
 	for _, tc := range cases {
 		b, err := json.Marshal(tc.v)
@@ -35,17 +37,17 @@ func TestMarshalWithExtra_NoRecursion(t *testing.T) {
 // Unset nested objects must not be sent as {} (choice[x] siblings), and an
 // explicit false must survive.
 func TestGeneratedBody_OmitsUnsetObjects(t *testing.T) {
-	b, _ := json.Marshal(ConditionKeluhanUtamaBody{OnsetDateTime: "2024-01-01"})
+	b, _ := json.Marshal(rawatjalan.ConditionKeluhanUtamaBody{OnsetDateTime: "2024-01-01"})
 	if string(b) != `{"onsetDateTime":"2024-01-01"}` {
 		t.Fatalf("got %s", b)
 	}
-	var body ConditionKeluhanUtamaBody
+	var body rawatjalan.ConditionKeluhanUtamaBody
 	body.Subject.Reference = "Patient/1"
 	b, _ = json.Marshal(body)
 	if string(b) != `{"subject":{"reference":"Patient/1"}}` {
 		t.Fatalf("got %s", b)
 	}
-	b, _ = json.Marshal(PatientCreateByNikBody{DeceasedBoolean: Ptr(false)})
+	b, _ = json.Marshal(fhir.PatientCreateByNikBody{DeceasedBoolean: Ptr(false)})
 	if string(b) != `{"deceasedBoolean":false}` {
 		t.Fatalf("got %s", b)
 	}

@@ -23,7 +23,7 @@ The port preserves the design intent of the Node SDK:
 - **Zero dependency.** Pure Go stdlib.
 - **Token caching is the caller's job.** `GetAccessToken` mints a fresh OAuth2 token, and you reattach via `Config.Token` / `SetToken` on every client build. The SDK never caches or auto-refreshes.
 - **One client, namespaced sub-clients.** `c.FHIR`, `c.RawatJalan`, `c.Gigi`, `c.Farmasi`, `c.KlaimSwasta`, `c.KlaimBpjs`.
-- **One module per source folder.** Every generated `zz_*.go` file mirrors a `src/...` file from the Node SDK; the generator is shared (see `scripts/generate.mjs`).
+- **One package per workflow group.** Generated code lives in `fhir/`, `rawatjalan/`, `gigi/`, `farmasi/`, `klaimswasta/`, `klaimbpjs/`; each file mirrors a `src/...` file from the Node SDK (see `scripts/generate.mjs`).
 
 ## Installation
 
@@ -38,7 +38,9 @@ Generated body structs never send unset fields: nested objects use
 and bools/numbers are pointers so an explicit `false`/`0` still goes out:
 
 ```go
-body := satusehat.PatientCreateByNikBody{DeceasedBoolean: satusehat.Ptr(false)}
+import "github.com/harizinside/go-satusehat/fhir"
+
+body := fhir.PatientCreateByNikBody{DeceasedBoolean: satusehat.Ptr(false)}
 ```
 
 ### Errors
@@ -48,24 +50,24 @@ Non-2xx responses and transport failures return `*satusehat.APIError`
 
 ## API surface
 
-`c.FHIR` returns a struct with one service per FHIR resource:
+`c.FHIR` is a `fhir.Namespace` with one service per FHIR resource (`fhir.EncounterService`, `fhir.PatientService`, …); request bodies and params live in the same package:
 
 ```go
-c.FHIR.Encounter.EncounterPatchArray(ctx, id, []PatchOp{...})
+c.FHIR.Encounter.EncounterPatchArray(ctx, id, []satusehat.PatchOp{...})
 c.FHIR.Patient.PatientCreateByNik(ctx, body)
 c.FHIR.Coverage.CoverageKepesertaanBpjsK(ctx, body)
 c.FHIR.Encounter.EncounterById(ctx, id)
-c.FHIR.Encounter.EncounterBySubject(ctx, EncounterBySubjectParams{Subject: "Patient/123"})
+c.FHIR.Encounter.EncounterBySubject(ctx, fhir.EncounterBySubjectParams{Subject: "Patient/123"})
 ```
 
-Workflow namespaces:
+Workflow namespaces, each its own package (`rawatjalan`, `gigi`, `farmasi`, `klaimswasta`, `klaimbpjs`):
 
 ```go
 c.RawatJalan.Anamnesis.ConditionKeluhanUtama(ctx, body)
 c.Gigi.Anamnesis.ConditionKeluhanUtama(ctx, body)
 c.Farmasi.Peresepan.CreateMedicationRequest(ctx, body)
 c.KlaimSwasta.PrimaryPayor.ClaimDataKlaimAsuransiSwasta(ctx, body)
-c.KlaimBpjs.Contoh.ClaimDataKlaimBpjs(ctx, body)
+c.KlaimBpjs.ContohKlaim.EncounterKunjunganBaru(ctx, body)
 ```
 
 Hand-written helpers (one-call wrappers around Node SDK equivalents):
@@ -122,7 +124,7 @@ go vet ./...
 go test ./...
 ```
 
-The generator reads `src/fhir/*.ts`, `src/rawat-jalan/*.ts`, `src/gigi/*.ts`, `src/farmasi/*.ts`, `src/klaim-swasta/*.ts`, `src/klaim-bpjs/*.ts` via the TypeScript compiler API and produces per-module service files (`zz_*.go`) plus `zz_namespaces.go`. The shared source of truth stays the Node SDK — re-run after every Node SDK change.
+The generator reads `src/fhir/*.ts`, `src/rawat-jalan/*.ts`, `src/gigi/*.ts`, `src/farmasi/*.ts`, `src/klaim-swasta/*.ts`, `src/klaim-bpjs/*.ts` via the TypeScript compiler API and produces one Go package per group (one file per TS module plus `namespace.go`) and the root `zz_namespaces.go` that hangs them off `*Client`. Shared types (`Resource`, `Bundle`, `PatchOp`, `RequestOptions`) live in `internal/core` and are re-exported from the root package. The shared source of truth stays the Node SDK — re-run after every Node SDK change.
 
 ## Caveats
 

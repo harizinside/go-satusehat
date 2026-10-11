@@ -2,6 +2,8 @@ package satusehat
 
 import (
 	"context"
+
+	"github.com/harizinside/go-satusehat/internal/core"
 )
 
 // RmeLinkInput is the body of an RME health-link request.
@@ -18,7 +20,7 @@ type RmeLinkInput struct {
 // MarshalJSON merges Extra into the top-level object.
 func (r RmeLinkInput) MarshalJSON() ([]byte, error) {
 	type plain RmeLinkInput
-	return marshalWithExtra(plain(r), r.Extra)
+	return core.MarshalWithExtra(plain(r), r.Extra)
 }
 
 // RmeOptions lets callers override the RME host.

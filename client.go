@@ -12,6 +12,8 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+
+	"github.com/harizinside/go-satusehat/internal/core"
 )
 
 // Environment picks between staging and production endpoints.
@@ -176,14 +178,9 @@ func (c *Client) RequestURL(ctx context.Context, method, fullURL string, opts *R
 }
 
 // RequestOptions mirrors the TS `RequestOptions` shape: `query`, `body`,
-// `headers`, `auth`. `Auth` defaults to true; pass `Auth: ptr(false)` for the
+// `headers`, `auth`. `Auth` defaults to true; pass `Auth: Ptr(false)` for the
 // OAuth2 token endpoint (which must NOT carry a Bearer header).
-type RequestOptions struct {
-	Query   any
-	Body    any
-	Headers map[string]string
-	Auth    *bool
-}
+type RequestOptions = core.RequestOptions
 
 // requestURL is the shared low-level path used by Request/RequestMasterData/
 // RequestURL and by the generated methods.

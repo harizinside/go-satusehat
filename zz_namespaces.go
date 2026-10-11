@@ -2,213 +2,34 @@
 
 package satusehat
 
-// GeneratedNamespaces holds every service the generator emitted;
-// embedded in `namespaces` so the top-level fields on `*Client` work.
+import (
+	"github.com/harizinside/go-satusehat/farmasi"
+	"github.com/harizinside/go-satusehat/fhir"
+	"github.com/harizinside/go-satusehat/gigi"
+	"github.com/harizinside/go-satusehat/klaimbpjs"
+	"github.com/harizinside/go-satusehat/klaimswasta"
+	"github.com/harizinside/go-satusehat/rawatjalan"
+)
+
+// GeneratedNamespaces holds every generated group;
+// embedded in `Namespaces` so the top-level fields on `*Client` work.
 type GeneratedNamespaces struct {
-	FHIR        FHIRNamespace
-	RawatJalan  RawatJalanNamespace
-	Gigi        GigiNamespace
-	Farmasi     FarmasiNamespace
-	KlaimSwasta KlaimSwastaNamespace
-	KlaimBpjs   KlaimBpjsNamespace
+	FHIR        fhir.Namespace
+	RawatJalan  rawatjalan.Namespace
+	Gigi        gigi.Namespace
+	Farmasi     farmasi.Namespace
+	KlaimSwasta klaimswasta.Namespace
+	KlaimBpjs   klaimbpjs.Namespace
 }
 
-// FHIRNamespace bundles the FHIR modules.
-type FHIRNamespace struct {
-	Account                     *FhirAccountService
-	Allergyintolerance          *FhirAllergyintoleranceService
-	Appointment                 *FhirAppointmentService
-	Appointmentresponse         *FhirAppointmentresponseService
-	Careplan                    *FhirCareplanService
-	Chargeitem                  *FhirChargeitemService
-	Claim                       *FhirClaimService
-	Claimresponse               *FhirClaimresponseService
-	Clinicalimpression          *FhirClinicalimpressionService
-	Composition                 *FhirCompositionService
-	Condition                   *FhirConditionService
-	Coverage                    *FhirCoverageService
-	Coverageeligibilityrequest  *FhirCoverageeligibilityrequestService
-	Coverageeligibilityresponse *FhirCoverageeligibilityresponseService
-	Diagnosticreport            *FhirDiagnosticreportService
-	Documentreference           *FhirDocumentreferenceService
-	Encounter                   *FhirEncounterService
-	Episodeofcare               *FhirEpisodeofcareService
-	Familymemberhistory         *FhirFamilymemberhistoryService
-	Healthcareservice           *FhirHealthcareserviceService
-	Imagingstudy                *FhirImagingstudyService
-	Immunization                *FhirImmunizationService
-	Invoice                     *FhirInvoiceService
-	Location                    *FhirLocationService
-	Medication                  *FhirMedicationService
-	Medicationdispense          *FhirMedicationdispenseService
-	Medicationrequest           *FhirMedicationrequestService
-	ObservationTtv              *FhirObservationTtvService
-	Organization                *FhirOrganizationService
-	Patient                     *FhirPatientService
-	Paymentnotice               *FhirPaymentnoticeService
-	Paymentreconciliation       *FhirPaymentreconciliationService
-	Practitionerrole            *FhirPractitionerroleService
-	Procedure                   *FhirProcedureService
-	Questionnaireresponse       *FhirQuestionnaireresponseService
-	Relatedperson               *FhirRelatedpersonService
-	Servicerequest              *FhirServicerequestService
-	Slot                        *FhirSlotService
-	Specimen                    *FhirSpecimenService
-}
-
-// RawatJalanNamespace bundles the RawatJalan modules.
-type RawatJalanNamespace struct {
-	Anamnesis                                   *RjAnamnesisService
-	CaraKeluarDariRumahSakit                    *RjCaraKeluarDariRumahSakitService
-	Diagnosis                                   *RjDiagnosisService
-	HasilPemeriksaanFisik                       *RjHasilPemeriksaanFisikService
-	InstruksiMedikDanKeperawatanPasien          *RjInstruksiMedikDanKeperawatanPasienService
-	KondisiSaatMeninggalkanFasyankes            *RjKondisiSaatMeninggalkanFasyankesService
-	PemeriksaanFungsional                       *RjPemeriksaanFungsionalService
-	PemeriksaanPenunjang                        *RjPemeriksaanPenunjangService
-	PendaftaranKunjunganRawatJalan              *RjPendaftaranKunjunganRawatJalanService
-	PenilaianRisiko                             *RjPenilaianRisikoService
-	Prognosis                                   *RjPrognosisService
-	RasionalKlinis                              *RjRasionalKlinisService
-	RencanaRawatPasien                          *RjRencanaRawatPasienService
-	RencanaTindakLanjutDanInstruksiTindakLanjut *RjRencanaTindakLanjutDanInstruksiTindakLanjutService
-	ResumeMedis                                 *RjResumeMedisService
-	RiwayatPerjalananPenyakit                   *RjRiwayatPerjalananPenyakitService
-	Tatalaksana                                 *RjTatalaksanaService
-	TindakanProsedurMedis                       *RjTindakanProsedurMedisService
-	TujuanPerawatan                             *RjTujuanPerawatanService
-	VariasiRtlDanCaraKeluar                     *RjVariasiRtlDanCaraKeluarService
-}
-
-// GigiNamespace bundles the Gigi modules.
-type GigiNamespace struct {
-	Anamnesis                          *GigiAnamnesisService
-	CaraKeluarDariRumahSakit           *GigiCaraKeluarDariRumahSakitService
-	Diagnosis                          *GigiDiagnosisService
-	FormulirPemeriksaanOdontogram      *GigiFormulirPemeriksaanOdontogramService
-	KondisiSaatMeninggalkanRs          *GigiKondisiSaatMeninggalkanRsService
-	PemeriksaanFisik                   *GigiPemeriksaanFisikService
-	PemeriksaanPenunjang               *GigiPemeriksaanPenunjangService
-	PendaftaranKunjunganRawatJalanGigi *GigiPendaftaranKunjunganRawatJalanGigiService
-	RencanaTindakLanjut                *GigiRencanaTindakLanjutService
-	Tatalaksana                        *GigiTatalaksanaService
-	Tindakan                           *GigiTindakanService
-}
-
-// FarmasiNamespace bundles the Farmasi modules.
-type FarmasiNamespace struct {
-	Pengeluaran *FarmasiPengeluaranService
-	Peresepan   *FarmasiPeresepanService
-}
-
-// KlaimSwastaNamespace bundles the KlaimSwasta modules.
-type KlaimSwastaNamespace struct {
-	Komunikasi     *KlaimSwastaKomunikasiService
-	Oop            *KlaimSwastaOopService
-	PrimaryPayor   *KlaimSwastaPrimaryPayorService
-	SecondaryPayor *KlaimSwastaSecondaryPayorService
-	Tpa            *KlaimSwastaTpaService
-}
-
-// KlaimBpjsNamespace bundles the KlaimBpjs modules.
-type KlaimBpjsNamespace struct {
-	ContohKlaim *KlaimBpjsContohKlaimService
-	Variabel    *KlaimBpjsVariabelService
-}
-
-// buildGeneratedNamespaces wires per-module services onto a Client.
+// buildGeneratedNamespaces wires per-group services onto a Client.
 func buildGeneratedNamespaces(c *Client) *GeneratedNamespaces {
 	return &GeneratedNamespaces{
-		FHIR: FHIRNamespace{
-			Account:                     &FhirAccountService{c: c},
-			Allergyintolerance:          &FhirAllergyintoleranceService{c: c},
-			Appointment:                 &FhirAppointmentService{c: c},
-			Appointmentresponse:         &FhirAppointmentresponseService{c: c},
-			Careplan:                    &FhirCareplanService{c: c},
-			Chargeitem:                  &FhirChargeitemService{c: c},
-			Claim:                       &FhirClaimService{c: c},
-			Claimresponse:               &FhirClaimresponseService{c: c},
-			Clinicalimpression:          &FhirClinicalimpressionService{c: c},
-			Composition:                 &FhirCompositionService{c: c},
-			Condition:                   &FhirConditionService{c: c},
-			Coverage:                    &FhirCoverageService{c: c},
-			Coverageeligibilityrequest:  &FhirCoverageeligibilityrequestService{c: c},
-			Coverageeligibilityresponse: &FhirCoverageeligibilityresponseService{c: c},
-			Diagnosticreport:            &FhirDiagnosticreportService{c: c},
-			Documentreference:           &FhirDocumentreferenceService{c: c},
-			Encounter:                   &FhirEncounterService{c: c},
-			Episodeofcare:               &FhirEpisodeofcareService{c: c},
-			Familymemberhistory:         &FhirFamilymemberhistoryService{c: c},
-			Healthcareservice:           &FhirHealthcareserviceService{c: c},
-			Imagingstudy:                &FhirImagingstudyService{c: c},
-			Immunization:                &FhirImmunizationService{c: c},
-			Invoice:                     &FhirInvoiceService{c: c},
-			Location:                    &FhirLocationService{c: c},
-			Medication:                  &FhirMedicationService{c: c},
-			Medicationdispense:          &FhirMedicationdispenseService{c: c},
-			Medicationrequest:           &FhirMedicationrequestService{c: c},
-			ObservationTtv:              &FhirObservationTtvService{c: c},
-			Organization:                &FhirOrganizationService{c: c},
-			Patient:                     &FhirPatientService{c: c},
-			Paymentnotice:               &FhirPaymentnoticeService{c: c},
-			Paymentreconciliation:       &FhirPaymentreconciliationService{c: c},
-			Practitionerrole:            &FhirPractitionerroleService{c: c},
-			Procedure:                   &FhirProcedureService{c: c},
-			Questionnaireresponse:       &FhirQuestionnaireresponseService{c: c},
-			Relatedperson:               &FhirRelatedpersonService{c: c},
-			Servicerequest:              &FhirServicerequestService{c: c},
-			Slot:                        &FhirSlotService{c: c},
-			Specimen:                    &FhirSpecimenService{c: c},
-		},
-		RawatJalan: RawatJalanNamespace{
-			Anamnesis:                                   &RjAnamnesisService{c: c},
-			CaraKeluarDariRumahSakit:                    &RjCaraKeluarDariRumahSakitService{c: c},
-			Diagnosis:                                   &RjDiagnosisService{c: c},
-			HasilPemeriksaanFisik:                       &RjHasilPemeriksaanFisikService{c: c},
-			InstruksiMedikDanKeperawatanPasien:          &RjInstruksiMedikDanKeperawatanPasienService{c: c},
-			KondisiSaatMeninggalkanFasyankes:            &RjKondisiSaatMeninggalkanFasyankesService{c: c},
-			PemeriksaanFungsional:                       &RjPemeriksaanFungsionalService{c: c},
-			PemeriksaanPenunjang:                        &RjPemeriksaanPenunjangService{c: c},
-			PendaftaranKunjunganRawatJalan:              &RjPendaftaranKunjunganRawatJalanService{c: c},
-			PenilaianRisiko:                             &RjPenilaianRisikoService{c: c},
-			Prognosis:                                   &RjPrognosisService{c: c},
-			RasionalKlinis:                              &RjRasionalKlinisService{c: c},
-			RencanaRawatPasien:                          &RjRencanaRawatPasienService{c: c},
-			RencanaTindakLanjutDanInstruksiTindakLanjut: &RjRencanaTindakLanjutDanInstruksiTindakLanjutService{c: c},
-			ResumeMedis:                                 &RjResumeMedisService{c: c},
-			RiwayatPerjalananPenyakit:                   &RjRiwayatPerjalananPenyakitService{c: c},
-			Tatalaksana:                                 &RjTatalaksanaService{c: c},
-			TindakanProsedurMedis:                       &RjTindakanProsedurMedisService{c: c},
-			TujuanPerawatan:                             &RjTujuanPerawatanService{c: c},
-			VariasiRtlDanCaraKeluar:                     &RjVariasiRtlDanCaraKeluarService{c: c},
-		},
-		Gigi: GigiNamespace{
-			Anamnesis:                          &GigiAnamnesisService{c: c},
-			CaraKeluarDariRumahSakit:           &GigiCaraKeluarDariRumahSakitService{c: c},
-			Diagnosis:                          &GigiDiagnosisService{c: c},
-			FormulirPemeriksaanOdontogram:      &GigiFormulirPemeriksaanOdontogramService{c: c},
-			KondisiSaatMeninggalkanRs:          &GigiKondisiSaatMeninggalkanRsService{c: c},
-			PemeriksaanFisik:                   &GigiPemeriksaanFisikService{c: c},
-			PemeriksaanPenunjang:               &GigiPemeriksaanPenunjangService{c: c},
-			PendaftaranKunjunganRawatJalanGigi: &GigiPendaftaranKunjunganRawatJalanGigiService{c: c},
-			RencanaTindakLanjut:                &GigiRencanaTindakLanjutService{c: c},
-			Tatalaksana:                        &GigiTatalaksanaService{c: c},
-			Tindakan:                           &GigiTindakanService{c: c},
-		},
-		Farmasi: FarmasiNamespace{
-			Pengeluaran: &FarmasiPengeluaranService{c: c},
-			Peresepan:   &FarmasiPeresepanService{c: c},
-		},
-		KlaimSwasta: KlaimSwastaNamespace{
-			Komunikasi:     &KlaimSwastaKomunikasiService{c: c},
-			Oop:            &KlaimSwastaOopService{c: c},
-			PrimaryPayor:   &KlaimSwastaPrimaryPayorService{c: c},
-			SecondaryPayor: &KlaimSwastaSecondaryPayorService{c: c},
-			Tpa:            &KlaimSwastaTpaService{c: c},
-		},
-		KlaimBpjs: KlaimBpjsNamespace{
-			ContohKlaim: &KlaimBpjsContohKlaimService{c: c},
-			Variabel:    &KlaimBpjsVariabelService{c: c},
-		},
+		FHIR:        fhir.New(c),
+		RawatJalan:  rawatjalan.New(c),
+		Gigi:        gigi.New(c),
+		Farmasi:     farmasi.New(c),
+		KlaimSwasta: klaimswasta.New(c),
+		KlaimBpjs:   klaimbpjs.New(c),
 	}
 }
