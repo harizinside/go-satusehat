@@ -603,7 +603,7 @@ for (const group of GROUPS) {
     if (!stmts.length) continue;
 
     const fileBase = fileBaseName(file);
-    const groupPrefix = group.ns.replace(/([A-Z])(.+)/, "$1"); // FHIR → F, RawatJalan → R, ...
+    const groupPrefix = group.ns.toLowerCase(); // FHIR → fhir, RawatJalan → rawatjalan, ...
     // Service name: derived from group + file basename (e.g. "AccountService"
     // for FHIR, "RjAnamnesisService" for RawatJalan) so cross-group names
     // never collide.
@@ -681,7 +681,7 @@ for (const group of GROUPS) {
       if (idx >= 0) lines.splice(idx + 1, 0, 'import "net/url"');
     }
 
-    const outName = `zz_${groupPrefix.toLowerCase()}_${fileBase.replace(/-/g, "_")}.go`;
+    const outName = `zz_${groupPrefix}_${fileBase.replace(/-/g, "_")}.go`;
     writeFileSync(join(outRoot, outName), lines.join("\n"));
     nsPlan.push({ ns: group.ns, field: fieldName, typeName: serviceName });
   }
